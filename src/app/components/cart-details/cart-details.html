@@ -1,38 +1,42 @@
-<div class="container" *ngIf="cart">
-  <div class="header">
-    <h1>Cart Details - Cart ID: {{ cart.id }}</h1>
-    <a routerLink="/" class="back-link">← Back to Cart List</a>
+@if (cart) {
+  <div class="container">
+    <div class="header">
+      <h1>Cart Details - Cart ID: {{ cart.id }}</h1>
+      <a routerLink="/" class="back-link">← Back to Cart List</a>
+    </div>
+    <div class="cart-summary">
+      <p><strong>Total Products:</strong> {{ cart.totalProducts }}</p>
+      <p><strong>Total Quantity:</strong> {{ cart.totalQuantity }}</p>
+      <p><strong>Cart Total:</strong> {{ cart.total | currency }}</p>
+    </div>
+    <h2>Products</h2>
+    <div class="products-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Discount %</th>
+            <th>Amount After Discount</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (product of products; track product) {
+            <tr>
+              <td>{{ product.title }}</td>
+              <td>{{ product.price | currency }}</td>
+              <td>{{ product.discountPercentage | percent: '1.0-0' }}</td>
+              <td>{{ product.price | discount: product.discountPercentage | currency }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
+}
 
-  <div class="cart-summary">
-    <p><strong>Total Products:</strong> {{ cart.totalProducts }}</p>
-    <p><strong>Total Quantity:</strong> {{ cart.totalQuantity }}</p>
-    <p><strong>Cart Total:</strong> {{ cart.total | currency }}</p>
+@if (!cart) {
+  <div class="container">
+    <p>Loading cart details...</p>
   </div>
-
-  <h2>Products</h2>
-  <div class="products-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Price</th>
-          <th>Discount %</th>
-          <th>Amount After Discount</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products">
-          <td>{{ product.title }}</td>
-          <td>{{ product.price | currency }}</td>
-          <td>{{ product.discountPercentage | percent: '1.0-0' }}</td>
-          <td>{{ product.price | discount: product.discountPercentage | currency }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<div class="container" *ngIf="!cart">
-  <p>Loading cart details...</p>
-</div>
+}
