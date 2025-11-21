@@ -1,0 +1,11 @@
+<div class="container">
+  <h1>Cart List</h1>
+  <div class="cart-list">
+    <div *ngFor="let cart of carts" class="cart-item">
+      <a [routerLink]="['/cart', cart.id]">
+        <h3>Cart ID: {{ cart.id }}</h3>
+        <p>Total: {{ cart.total | currency }}</p>
+      </a>
+    </div>
+  </div>
+</div>
